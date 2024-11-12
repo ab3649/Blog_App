@@ -3,9 +3,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
   Future<String> signUpWithEmailPassword({
-    required String name,
     required String email,
     required String password,
+    required String name,
   });
   Future<String> loginWithEmailPassword({
     required String email,
@@ -33,10 +33,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      final response =
-          supabaseClient.auth.signUp(password: password, email: email, data: {
-        'name': name,
-      });
+      await supabaseClient.auth.signOut();
+      print('auth_remote_data_source.dart');
+      print(password);
+      print(email);
+      print(name);
+      final response = await supabaseClient.auth.signUp(
+        password: 'password#1O1',
+        email: 'anshumanmishra1@gmail.com',
+        data: {
+          name: 'Anshuman1',
+        },
+      );
       if (response.user == null) {
         throw ServerException('User is null!');
       }
